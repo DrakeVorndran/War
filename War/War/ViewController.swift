@@ -19,8 +19,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var P1CardsLeft: UILabel!
     @IBOutlet weak var P2CardsLeft: UILabel!
     @IBOutlet weak var WinLabel: UILabel!
+    @IBOutlet weak var BankLabel: UILabel!
     
     override func viewDidLoad() {
+        BankLabel.isHidden = false
         super.viewDidLoad()
         TotalDeck = shuffle(cards: TotalDeck)
         P1Deck = [String](TotalDeck[..<26])
@@ -50,25 +52,28 @@ class ViewController: UIViewController {
         P1Deck.remove(at:0)
         P2Deck.remove(at:0)
         if(p1>p2){
+            BankLabel.isHidden = true
             WinLabel.text = "P1 wins!"
             P1Deck+=bank
             bank = []
         }
         else if(p2>p1){
+            BankLabel.isHidden = true
             WinLabel.text = "P2 wins!"
             P2Deck+=bank
             bank = []
         }
         else{
             WinLabel.text = "Tie!"
+            BankLabel.isHidden = false
             for _ in 0..<3{
                 bank.append(P1Deck[0])
                 P1Deck.remove(at:0)
                 bank.append(P2Deck[0])
                 P2Deck.remove(at:0)
             }
-            print(bank)
         }
+        BankLabel.text = (String(bank.count)+" cards in bank")
         P1CardsLeft.text = ("Cards: "+String(P1Deck.count))
         P2CardsLeft.text = ("Cards: "+String(P2Deck.count))
     }
